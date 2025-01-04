@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* background-color: #cc4949; */
+        }
+        .container {
+            width: 50%;
+            height: 500px;
+            margin: 100px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            align-items: center;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        label{
+            margin-top: 50px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="" id="form" >
+            <h1>Add Contact</h1>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+
+
+
+
+
+    
+    <script>
+        let api="http://localhost:3000"
+        const form = document.getElementById('form');
+        form.addEventListener('submit',async(e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const data = {
+                name,
+                email,
+                phone
+            }
+            console.log(data);
+            try {
+                const res=await fetch(api+"/api/adduser",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({name,email,phone})
+                })
+                if(res.status==201){
+                    window.location.href="../index.html"
+                    const {msg}=await res.json()
+                    alert(msg)
+                }
+                else{
+                    const {msg}=await res.json()
+                    alert(msg)
+                }
+
+
+            } catch (error) {
+                const {msg}=await res.json()
+                    alert(msg)
+            }
+        })
+    </script>
+</body>
+</html>
